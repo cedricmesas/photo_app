@@ -30,6 +30,7 @@ gem 'devise'
 gem 'twitter-bootstrap-rails'
 gem 'devise-bootstrap-views'
 gem 'jquery-rails'
+gem 'letter_opener'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
