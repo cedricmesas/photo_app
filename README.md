@@ -55,28 +55,118 @@ Add **:confirmable** in models > user.rb
 
 Doing **rails db:create db:migrate**
 
-Add **before_action :authenticate_user!** in **application_controller**
+Add 
+```ruby
+before_action :authenticate_user!
+```
+in **application_controller**
 
 Obliger le visiteur a être loggé pour arriver sur la home page du site. 
 
 Pour ignorer le log sur le site : 
 
 Se rendre dans le **welcome_controller** et add : 
-- **skip_before_action :authenticate_user!, only [:index]** before the method.
+
+```ruby
+skip_before_action :authenticate_user!, only [:index]** before the method.
+```
+
 
 => plus besoin d'être connecté pour accéder à la page d'accueil. 
 
 * Générer un app bootstrap
-**rails generate bootstrap:install static**
 
-**rails generate bootstrap:layout application**
+```ruby
+rails generate bootstrap:install static
+rails generate bootstrap:layout application
+```
 
 * Générer une view devise
 
-**rails g devise:views:locale en**
-**rails g devise:views:bootstrap_templates**
+```ruby
+rails g devise:views:locale en
+rails g devise:views:bootstrap_templates
+```
 
 Delete 5 links to the favicon :)
 
 In _app > assets > stylesheets > application.css_ adding :
-- ***= require devise_bootstrap_views**
+
+```ruby
+*= require devise_bootstrap_views
+```
+
+Install email 
+
+```
+heroku addons:create sendgrid:starter
+```
+
+In heroku website : 
+
+```
+Account setting > Billing 
+```
+
+Then in terminal :
+
+```
+heroku addons:create sendgrid:starter
+```
+
+In heroku website, _click on the project_ 
+Then _click on Sendgrid logo_. 
+
+In Sendgrid website, click on **Settings**. 
+Then, click on **API keys**.
+
+Create an Api Keys with name, authorisation. 
+
+Recover **API Keys** created. 
+
+* Configuration heroku with **API Keys**
+
+```
+heroku config:set SENDGRID_USERNAME=apikey
+```
+
+```
+heroku config:set SENDGRID_PASSWORD=apipassword
+```
+
+Create an **.env** file for putting the **apikey** and **apipassword**
+
+```ruby
+SENDGRID_USERNAME=''
+SENDGRID_PASSWORD=''
+```
+
+Sendgrid configuration in App
+
+In folder _config_
+In file _environment.rb_, write this :
+
+```ruby
+ActionMailer::Base.smtp_settings = {
+    :user_name => ENV['SENDGRID_USERNAME'],
+    :password => ENV['SENDGRID_PASSWORD'],
+    :domain => 'monsite.fr',
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+```
+
+In folder _config_
+In folder _environments_
+In file _development.rb_
+
+```ruby
+config.action_mailer.delivery_method = :letter_opener 
+config.action_mailer.perform_deliveries = true
+config.action_mailer.default_url_options = { :host => '' }
+```
+
+
+
