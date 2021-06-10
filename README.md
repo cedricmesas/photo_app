@@ -153,9 +153,7 @@ In folder _config_ > _environments_ > _production.rb_ :
 ```config.action_mailer.default_url_options = { :host => 'ced-photo-app.herokuapp.com', :protocol => 'https' }```
 
 For db:migrate on heroku : 
-```heroku run rake db:migrate```
+```heroku run rails db:migrate```
 
-For change the mailer sender : 
-
-**config > initializers > devise.rb**
+For change the mailer sender, **config > initializers > devise.rb** :
 ```config.mailer_sender = 'donot-reply@exemple.com'```
