@@ -179,3 +179,35 @@ In **app > assets > images > stylesheets**, download image :
 ```
 In **app/views/layouts** folder, the **application.html.erb** page 
 change the following to ```col-lg-12``` from ```col-lg-9```
+
+
+# Stripe and Payment introduction 
+
+Accepter les paiements ou intégrer un moyen de paiement. 
+Pour s'inscrire sur le site, les users doivent payer pour accéder au contenu du site. 
+
+Pour le moment, les users peuvent simplement s'inscrire à leur compte en entrant leur password et leur confirmation de mot via un lien d'activation dans leur e-mail.
+
+
+Adding the Stripe gem to your application's **Gemfile** :
+
+```gem 'stripe'```
+
+Then, run ```bundle install --without production```
+
+After that, créer un fichier ```stripe.rb``` dans le dossier **config/initializers** écrire :
+
+```Rails.configuration.stripe = {
+  :publishable_key => ENV['STRIPE_TEST_PUBLISHABLE_KEY'],
+  
+  :secret_key => ENV['STRIPE_TEST_SECRET_KEY']
+}
+
+Stripe.api_key = Rails.configuration.stripe[:secret_key]
+```
+
+
+
+
+
+
