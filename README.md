@@ -157,3 +157,25 @@ For db:migrate on heroku :
 
 For change the mailer sender, **config > initializers > devise.rb** :
 ```config.mailer_sender = 'donot-reply@exemple.com'```
+
+
+* Build homepage
+
+In **app > views > welcome > index.html.erb**, add :
+```styling for home page```
+
+* Add css jumbotron 
+In **app > assets > stylesheets > custom.css.scss**
+```.features```
+```.jumbotron```
+```.no-left-padding```
+```.listing```
+
+In **app > assets > images > stylesheets**, download image : 
+```css
+.jumbotron {
+      background-image: asset-url('meeting.png');
+}
+```
+In **app/views/layouts** folder, the **application.html.erb** page 
+change the following to ```col-lg-12``` from ```col-lg-9```
