@@ -195,7 +195,7 @@ Adding the Stripe gem to your application's **Gemfile** :
 
 Then, run ```bundle install --without production```
 
-After that, créer un fichier ```stripe.rb``` dans le dossier **config/initializers** écrire :
+Après, créer un fichier ```stripe.rb``` dans le dossier **config/initializers** écrire :
 
 ```Rails.configuration.stripe = {
   :publishable_key => ENV['STRIPE_TEST_PUBLISHABLE_KEY'],
@@ -206,7 +206,29 @@ After that, créer un fichier ```stripe.rb``` dans le dossier **config/initializ
 Stripe.api_key = Rails.configuration.stripe[:secret_key]
 ```
 
+Récupérer les clés API dans le dashboard de l'admin de Stripe. 
 
+### Installer la gem devise
+Se rendre ```https://github.com/heartcombo/devise```
+Mettre la gem ```devise``` dans le ```Gemfile```
+
+Inscrire les clés dans le fichier ```.env```
+
+Configurer sur Heroku
+
+```heroku config:set STRIPE_TEST_SECRET_KEY=```
+```heroku config:set STRIPE_TEST_PUBLISHABLE_KEY=```
+
+
+
+
+Parcourir cet onglet :
+```https://stripe.com/docs/legacy-checkout/rails```
+
+Le formulaire d'inscription du site doit être capable de prendre en compte la feature de paiement de Stripe. 
+
+1. JavaScript pour gérer la soumission du formulaire à Stripe
+2. Récupérer les attributs imbriqués dans les tokens lors de l'inscription.
 
 
 

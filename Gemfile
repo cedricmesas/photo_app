@@ -32,6 +32,7 @@ gem 'devise-bootstrap-views'
 gem 'jquery-rails'
 gem 'letter_opener'
 gem 'stripe'
+gem 'devise'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
