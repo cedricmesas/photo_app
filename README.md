@@ -214,12 +214,12 @@ Mettre la gem ```devise``` dans le ```Gemfile```
 
 Inscrire les clés dans le fichier ```.env```
 
-Configurer sur Heroku
+Configurer sur Heroku.
+
+Dans le terminal :
 
 ```heroku config:set STRIPE_TEST_SECRET_KEY=```
 ```heroku config:set STRIPE_TEST_PUBLISHABLE_KEY=```
-
-
 
 
 Parcourir cet onglet :
@@ -230,6 +230,60 @@ Le formulaire d'inscription du site doit être capable de prendre en compte la f
 1. JavaScript pour gérer la soumission du formulaire à Stripe
 2. Récupérer les attributs imbriqués dans les tokens lors de l'inscription.
 
+## PAYMENT MODEL
+
+Il va avoir un email pour l'utilisateur ID, un token renvoyé de Stripe que je dois enregistrer, qui est une chaîne. 
+
+```rails generate model Payment email:string token:string user_id:integer```
+
+Je migre cette nouvelle table
+
+```rails db:migrate```
 
 
+Je lie le model du paiement avec le model de l'user. 
 
+Dans le fichier ```app > models > user.rb```
+
+- ```has_one :payment```
+
+Le client aura un seul unique ID de paiment pour s'inscrire sur le site. 
+
+Dans le même fichier : 
+
+- ```accepts_nested_attributes_for :payment```
+
+Dans le fichier ```app > models > payment.rb```
+- ```belongs_to :user```
+
+Le model **payment** fonctionne avec les attributs des informations de carte de crédit (pour que le JavaScript envoie les infos à Stripe), puis les supprime. 
+
+Dans le même fichier :
+
+- ```attr_accessor :card_number, :card_cvv, :card_expires_month, :card_expires_year```
+
+Rédiger des méthodes pour faire fonctionner le paiement : 
+
+```ruby
+def self.month_options
+  Date::MONTHNAMES.compact.each_with_index.map { |name, i| ["#{i+1} - #{name}", i+1]}
+end
+
+def self.year_options
+  (Date.today.year..(Date.today.year+10)).to_a
+end
+
+def process_payment
+  customer = Stripe::Customer.create email: email, card: token
+  
+Stripe::Charge.create customer: customer.id,
+                        amount: 1000,
+                        description: 'Premium',
+                        currency: 'eur'
+                        end
+end
+```
+
+Ajouter les champs de traitement des cartes de crédit dans le formulaire d'inscription.
+
+Dans le fichier ```views > devise > registrations > new.html.erb```
