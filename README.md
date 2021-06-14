@@ -284,6 +284,36 @@ Stripe::Charge.create customer: customer.id,
 end
 ```
 
+## Update form for Credit Card Payments 
+### Update sign-up form to accept credit card information
+
 Ajouter les champs de traitement des cartes de crédit dans le formulaire d'inscription.
 
-Dans le fichier ```views > devise > registrations > new.html.erb```
+Dans le fichier ```views > devise > registrations > new.html.erb``` Line 24 : 
+
+```ruby
+<%= fields_for( :payment) do |p| %>
+    <div class="row col-md-12">
+      <div class="form-group col-md-4 no-left-padding">
+        <%= p.label :card_number, "Card Number", data: { stripe: 'label' } %>
+        <%= p.text_field :card_number, class: "form-control", required: true, data { stripe: 'number' } %>
+      </div>
+      <div class="form-group col-md-2">
+        <%= p.label :card_cvv, "Card CVV", data: { stripe: 'label' } %>
+        <%= p.text_field :card_cvv, class: "form-control", required: true, data { stripe: 'cvv' } %>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="col-md-12">
+          <%= p.label :card_expires, "Card Expires", data: { stripe: 'label'} %>
+        </div>
+        <div class="col-md-3">
+          <%= p.select :card_expires_month, options_for_select(Payment.month_options), { include_blank: 'Month' }, "data-stripe" => "exp-month", class: "form-control", required: true %>
+        </div>
+        <div class="col-md-3">
+          <%= p.select :card_expires_year, options_for_select(Payment.year_options.push), { include_blank: 'Year' }, class: "form-control", data: { stripe: "exp-year" }, required: true %>
+        </div>
+      </div>
+    </div>
+<% end %>
+```
+
