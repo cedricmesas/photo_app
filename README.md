@@ -317,3 +317,15 @@ Dans le fichier ```views > devise > registrations > new.html.erb``` Line 24 :
 <% end %>
 ```
 
+## Javascript events
+Faire circuler le formulaire d'inscription lors de sa soumission. 
+
+In the folder ```application.html.erb``` entre les <head></head> :
+``` <%= javacript_include_tag "https://js.stripe.com/v2/" %> ```
+
+In the folder **views > devise > registrations** put in the file ```new.html.erb``` (first line) 
+```ruby
+<script language = "Javascript">
+  Stripe.setPublishableKey("<%= ENV['STRIPE_TEST_PUBLISHABLE_KEY'] %>)
+</script>```
+
