@@ -386,3 +386,6 @@ $(document).on('ready turbolinks:load', function() {
     };
 });
 ```
+
+## Extend Devise Registrations Controller
+Add controller des enregistremen,ts
